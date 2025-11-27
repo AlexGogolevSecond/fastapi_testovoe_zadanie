@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 from .models import Operator, Source, Lead, OperatorSource, Contact
 from .schemas import OperatorCreate, SourceCreate, LeadCreate, OperatorSourceCreate, ContactCreate
 import random
@@ -6,11 +7,21 @@ import random
 def get_operator(db: Session, operator_id: int):
     return db.query(Operator).filter(Operator.id == operator_id).first()
 
+def get_operator_by_name(db: Session, name: str):
+    if name is None:
+        return None
+    norm = name.strip().lower()
+    return db.query(Operator).filter(func.lower(Operator.name) == norm).first()
+
 def get_operators(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Operator).offset(skip).limit(limit).all()
 
 def create_operator(db: Session, operator: OperatorCreate):
-    db_operator = Operator(**operator.model_dump())
+    # normalize name before creating
+    data = operator.model_dump()
+    if "name" in data and isinstance(data["name"], str):
+        data["name"] = data["name"].strip()
+    db_operator = Operator(**data)
     db.add(db_operator)
     db.commit()
     db.refresh(db_operator)

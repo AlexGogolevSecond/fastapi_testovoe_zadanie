@@ -13,14 +13,8 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 # 2) Или запустить явно через venv в репозитории:
 ./env/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-# 3) (альтернатива) Запуск через Docker (см. ниже)
-```
+# 3) Запуск через Docker
 
-**One-command start (recommended for reviewer)**
-
-Если у вас установлен Docker — самый быстрый способ запустить проект (клонировать репозиторий и выполнить пару команд):
-
-```bash
 git clone <REPO_URL>
 cd fastapi_testovoe_zadanie
 docker build -t minicrm .

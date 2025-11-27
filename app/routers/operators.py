@@ -2,12 +2,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..schemas import OperatorCreate, OperatorRead
-from ..crud import create_operator, get_operators, update_operator
+from ..crud import create_operator, get_operators, update_operator, get_operator_by_name
 
 router = APIRouter()
 
 @router.post("/operators/", response_model=OperatorRead)
 def api_create_operator(operator: OperatorCreate, db: Session = Depends(get_db)):
+    # Prevent duplicate operator names (case-insensitive)
+    existing = get_operator_by_name(db, operator.name)
+    if existing:
+        raise HTTPException(status_code=400, detail="Operator with this name already exists")
     return create_operator(db=db, operator=operator)
 
 @router.get("/operators/", response_model=list[OperatorRead])

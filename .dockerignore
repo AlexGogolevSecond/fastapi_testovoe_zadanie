@@ -1,0 +1,28 @@
+.env
+.env.*
+env/
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+*.egg-info/
+pip-wheel-metadata/
+dist/
+build/
+minicrm_app.db
+*.db
+.DS_Store
+.git
+.idea/
+.vscode/
+node_modules/
+*.log
+*.sqlite
+*.sqlite3
+
+# Don't exclude these (needed in image):
+# requirements.txt
+# app/ (the application package)

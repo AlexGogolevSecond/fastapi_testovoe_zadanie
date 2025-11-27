@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Копируем зависимости и устанавливаем
 COPY requirements.txt /app/requirements.txt
-RUN python -m pip install --upgrade pip && pip install --no-cache-dir -r /app/requirements.txt
+RUN python -m pip install --upgrade pip && pip install --no-cache-dir -r /requirements.txt
 
 # Копируем приложение
 COPY . /app
